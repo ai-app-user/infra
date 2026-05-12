@@ -1,0 +1,12 @@
+.DS_Store
+build/
+dist/
+tmp/
+*.log
+*.tmp
+*.token
+*.secret
+.env
+.env.*
+!.env.example
+
