@@ -20,7 +20,9 @@ Keep generated build artifacts, datasets, logs, and secrets out of Git.
 Current sibling projects:
 
 - `piper`: reusable pipeline infrastructure such as queues, buffer pools,
-  generic jobs, transport helpers, monitoring, and autoscaling.
+  generic jobs, monitoring, and autoscaling.
+- `connector`: generic socket transport for opaque buffers and lengths,
+  including TCP/Unix socket helpers and buffer sender/receiver jobs.
 - `filer`: reusable filesystem I/O jobs and backend adapters such as
   metadata/data readers, target writers, NFS, and NULL backends.
 - `hypersync`: product scenarios, CLI commands, profiler policy, scan/diff/copy
@@ -29,7 +31,7 @@ Current sibling projects:
 Workspace-level builds should include source roots in dependency order:
 
 ```text
-piper/src -> filer/src -> hypersync/src
+piper/src -> connector/src -> filer/src -> hypersync/src
 ```
 
 Do not move product scenario logic into `filer` just because it touches files;
