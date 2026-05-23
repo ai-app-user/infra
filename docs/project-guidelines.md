@@ -15,6 +15,26 @@ config/
 
 Keep generated build artifacts, datasets, logs, and secrets out of Git.
 
+## WSync Project Boundaries
+
+Current sibling projects:
+
+- `piper`: reusable pipeline infrastructure such as queues, buffer pools,
+  generic jobs, transport helpers, monitoring, and autoscaling.
+- `filer`: reusable filesystem I/O jobs and backend adapters such as
+  metadata/data readers, target writers, NFS, and NULL backends.
+- `hypersync`: product scenarios, CLI commands, profiler policy, scan/diff/copy
+  and sync behavior, product configuration, and performance gates.
+
+Workspace-level builds should include source roots in dependency order:
+
+```text
+piper/src -> filer/src -> hypersync/src
+```
+
+Do not move product scenario logic into `filer` just because it touches files;
+`filer` owns backend mechanics, while `hypersync` owns scenario composition.
+
 ## Development Rules
 
 - Use `dev` as the default working branch. Push normal iteration commits to
