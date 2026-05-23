@@ -21,6 +21,9 @@ Current sibling projects:
 
 - `piper`: reusable pipeline infrastructure such as queues, buffer pools,
   generic jobs, monitoring, and autoscaling.
+- `utils`: generic helper functions and small reusable algorithms, such as
+  content hashing over bytes, with no pipeline, socket, filesystem, or product
+  scenario semantics.
 - `connector`: generic socket transport for opaque buffers and lengths,
   including TCP/Unix socket helpers and buffer sender/receiver jobs.
 - `filer`: reusable filesystem I/O jobs and backend adapters such as
@@ -31,7 +34,7 @@ Current sibling projects:
 Workspace-level builds should include source roots in dependency order:
 
 ```text
-piper/src -> connector/src -> filer/src -> hypersync/src
+piper/src -> utils/src -> connector/src -> filer/src -> hypersync/src
 ```
 
 Do not move product scenario logic into `filer` just because it touches files;
