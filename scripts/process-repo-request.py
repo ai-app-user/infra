@@ -31,7 +31,7 @@ def api(token, endpoint, method="GET", data=None):
         with urllib.request.urlopen(req, timeout=20) as response:
             return response.status, json.load(response)
     except urllib.error.HTTPError as error:
-        if error.code in (403, 404, 422):
+        if error.code in (403, 404, 409, 422):
             return error.code, None
         raise ValueError(f"GitHub request failed (HTTP {error.code})") from None
 
@@ -74,7 +74,7 @@ def install_scaffold(token, name, files):
     if status == 200:
         print("Target repository already initialized; leaving it unchanged")
         return False
-    if status != 404:
+    if status not in (404, 409):
         raise ValueError(f"cannot inspect target branch (HTTP {status})")
     for path in sorted(files, key=lambda x: (x != "README.md", x)):
         status, _ = api(token, prefix + "/contents/" +
