@@ -1,5 +1,10 @@
 # Changelog
 
+## Plugin packaging update
+
+- Add a portable root plugin manifest with an onboarding skill for supported personal installs.
+- Clarify installation-scoped versus account-wide Codex Cloud discovery and improve automatic skill matching metadata.
+
 ## Pending — one-request repository bootstrap
 
 - Make trusted GitHub Actions create and initialize the private project in one operation.
