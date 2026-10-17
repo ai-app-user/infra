@@ -89,6 +89,20 @@ against `ai-app-user/infra` with rationale, tests, compatibility, and adoption
 instructions. Do not merge it. Projects update only after review and a separate
 sync request. If access is blocked, provide the local diff and blocker honestly.
 
+
+## GitHub API-blocked Cloud publishing
+
+If the Cloud GitHub API preflight fails but Git HTTPS works, use the approved
+private-repository request path described in `docs/automatic-repository-creation.md`.
+Do not invoke `gh repo create` or attempt to bypass Cloud proxy restrictions.
+After the user explicitly authorizes a real repository creation, make a separate
+clean infra checkout at latest main, create a `bootstrap-requests/<name>` branch,
+commit only `bootstrap-request.json` as specified in that guide, and push it
+using Git HTTPS. Wait for the GitHub Actions repository-creation result.
+If the remote exists, scaffold the project locally and publish the intended
+files with ordinary Git HTTPS. If workflow success cannot be verified, stop
+and give the user the GitHub Actions link; do not claim creation succeeded.
+
 ## Cloud discovery
 
 A SKILL.md in GitHub is not an account-wide installation. See
