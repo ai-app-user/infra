@@ -1,0 +1,31 @@
+name: Bootstrap repository creation
+on:
+  workflow_run:
+    workflows: ['Bootstrap request signal']
+    types: [completed]
+permissions:
+  contents: read
+concurrency:
+  group: bootstrap-repo-${{ github.event.workflow_run.head_branch }}
+  cancel-in-progress: false
+jobs:
+  create:
+    if: >-
+      ${{ github.event.workflow_run.conclusion == 'success' &&
+          github.event.workflow_run.event == 'push' &&
+          github.event.workflow_run.head_repository.full_name == 'ai-app-user/infra' &&
+          github.event.workflow_run.actor.login == 'ai-app-user' &&
+          startsWith(github.event.workflow_run.head_branch, 'bootstrap-requests/') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+      - name: Process request as data only
+        env:
+          GH_READ_TOKEN: ${{ github.token }}
+          BOOTSTRAP_GITHUB_TOKEN: ${{ secrets.BOOTSTRAP_GITHUB_TOKEN }}
+          REQUEST_SHA: ${{ github.event.workflow_run.head_sha }}
+          REQUEST_BRANCH: ${{ github.event.workflow_run.head_branch }}
+        run: python3 scripts/process-repo-request.py
