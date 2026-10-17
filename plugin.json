@@ -1,0 +1,38 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "project-bootstrap",
+  "version": "1.1.0",
+  "description": "Create private GitHub projects with shared ai-app-user/infra standards, synchronize existing projects, and propose reusable improvements to infra.",
+  "author": {
+    "name": "ai-app-user"
+  },
+  "repository": "https://github.com/ai-app-user/infra",
+  "keywords": [
+    "github",
+    "codex",
+    "project-bootstrap",
+    "development-standards"
+  ],
+  "extensions": {
+    "com.openai": {
+      "onboardingSkill": "./skills/setup/SKILL.md",
+      "interface": {
+        "displayName": "Project Bootstrap",
+        "shortDescription": "Create GitHub projects with shared development rules",
+        "longDescription": "Bootstrap new private GitHub projects with central development instructions, track adopted standards, and propose reusable improvements through reviewed pull requests.",
+        "developerName": "ai-app-user",
+        "category": "Productivity",
+        "capabilities": [
+          "Read",
+          "Write"
+        ],
+        "websiteURL": "https://github.com/ai-app-user/infra",
+        "defaultPrompt": [
+          "Create a private GitHub project using my standard infrastructure.",
+          "Update this project's shared development standards.",
+          "Propose this reusable improvement to my global infra."
+        ]
+      }
+    }
+  }
+}
