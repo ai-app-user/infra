@@ -90,18 +90,21 @@ instructions. Do not merge it. Projects update only after review and a separate
 sync request. If access is blocked, provide the local diff and blocker honestly.
 
 
-## GitHub API-blocked Cloud publishing
+## One-request GitHub Actions bootstrap
 
-If the Cloud GitHub API preflight fails but Git HTTPS works, use the approved
-private-repository request path described in `docs/automatic-repository-creation.md`.
-Do not invoke `gh repo create` or attempt to bypass Cloud proxy restrictions.
-After the user explicitly authorizes a real repository creation, make a separate
-clean infra checkout at latest main, create a `bootstrap-requests/<name>` branch,
-commit only `bootstrap-request.json` as specified in that guide, and push it
-using Git HTTPS. Wait for the GitHub Actions repository-creation result.
-If the remote exists, scaffold the project locally and publish the intended
-files with ordinary Git HTTPS. If workflow success cannot be verified, stop
-and give the user the GitHub Actions link; do not claim creation succeeded.
+For new private GitHub projects under `ai-app-user`, prefer the GitHub Actions
+workflow in `docs/automatic-repository-creation.md`. After the user authorizes
+creation, submit the single `bootstrap-requests/<name>` branch with its
+validated JSON request using Git HTTPS. GitHub Actions creates the private
+repository **and commits its canonical shared scaffold**, including AGENTS.md,
+docs/DEVELOPMENT.md and pinned infra metadata. Do not also call the old
+`publish` command or overwrite the initialized repository.
+
+Verify actual success via the GitHub Actions result and GitHub repository
+contents if access permits. If the Cloud proxy is unavailable, explicitly
+report the request was not submitted and allow a connected GitHub integration
+to create the branch/request. Never claim automatic discovery or successful
+remote publication without evidence.
 
 ## Cloud discovery
 

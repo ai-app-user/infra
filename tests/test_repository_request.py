@@ -2,6 +2,7 @@
 import importlib.util
 from pathlib import Path
 import unittest
+from unittest.mock import patch
 
 SOURCE = Path(__file__).resolve().parents[1] / "scripts" / "process-repo-request.py"
 spec = importlib.util.spec_from_file_location("bootstrap_request", SOURCE)
@@ -44,6 +45,41 @@ class RepositoryRequestTests(unittest.TestCase):
             req["name"] = name
             with self.subTest(name=name), self.assertRaises(ValueError):
                 processor.validate(req, "bootstrap-requests/" + name)
+
+    def test_scaffold_install_only_into_empty_repo(self):
+        calls = []
+        def fake_api(token, endpoint, method="GET", data=None):
+            calls.append((method, endpoint, data))
+            if "/git/ref/heads/main" in endpoint:
+                return 404, None
+            return 201, {}
+        files = {"README.md": b"# Test", "AGENTS.md": b"Rules",
+                 ".project-bootstrap.json": b'{"version":"1.1.0"}'}
+        with patch.object(processor, "api", side_effect=fake_api):
+            self.assertTrue(processor.install_scaffold("synthetic", "demo", files))
+        self.assertEqual([c[0] for c in calls], ["GET", "PUT", "PUT", "PUT"])
+        self.assertIn("/contents/README.md", calls[1][1])
+        self.assertEqual(calls[1][2]["branch"], "main")
+
+    def test_existing_project_is_never_overwritten(self):
+        with patch.object(processor, "api", return_value=(200, {})) as fake_api:
+            self.assertFalse(processor.install_scaffold("synthetic", "demo",
+                                                         {"README.md": b"new"}))
+        self.assertEqual(fake_api.call_count, 1)
+
+    def test_write_permission_failure_is_reported(self):
+        def fake_api(token, endpoint, method="GET", data=None):
+            return (404, None) if method == "GET" else (403, None)
+        with patch.object(processor, "api", side_effect=fake_api):
+            with self.assertRaisesRegex(ValueError, "Contents:write"):
+                processor.install_scaffold("synthetic", "demo", {"README.md": b"test"})
+
+    def test_generated_scaffold_contains_workflow(self):
+        # Tests run from a checked-out repository, so its manifest is committed.
+        state, files = processor.scaffold()
+        self.assertEqual(state["version"], "1.1.0")
+        self.assertIn("docs/DEVELOPMENT.md", files)
+        self.assertIn(b"Start of a session", files["AGENTS.md"])
 
 
 if __name__ == "__main__":
