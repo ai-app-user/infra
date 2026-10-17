@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Create private repositories from validated data, running ONLY from trusted main."""
 import base64
+import importlib.util
+import tempfile
+from pathlib import Path
 import json
 import os
 import re
@@ -46,6 +49,47 @@ def validate(data, branch):
     return name
 
 
+
+def scaffold():
+    """Build versioned project files from committed, trusted infra/main."""
+    root = Path(__file__).resolve().parents[1]
+    spec = importlib.util.spec_from_file_location(
+        "bootstrap_cli", root / "scripts" / "project-bootstrap.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    with tempfile.TemporaryDirectory(prefix="bootstrap-output-") as folder:
+        project = Path(folder)
+        state = module.sync(project, root, apply=True)
+        files = {p.relative_to(project).as_posix(): p.read_bytes()
+                 for p in project.rglob("*") if p.is_file()}
+        if "README.md" not in files or ".project-bootstrap.json" not in files:
+            raise ValueError("bootstrap generated incomplete project")
+        return state, files
+
+
+def install_scaffold(token, name, files):
+    """Only initialize an empty repository; never overwrite existing projects."""
+    prefix = f"/repos/{OWNER}/{urllib.parse.quote(name)}"
+    status, _ = api(token, prefix + "/git/ref/heads/main")
+    if status == 200:
+        print("Target repository already initialized; leaving it unchanged")
+        return False
+    if status != 404:
+        raise ValueError(f"cannot inspect target branch (HTTP {status})")
+    for path in sorted(files, key=lambda x: (x != "README.md", x)):
+        status, _ = api(token, prefix + "/contents/" +
+                        urllib.parse.quote(path, safe="/"), "PUT", {
+            "message": "Bootstrap project from shared infra",
+            "content": base64.b64encode(files[path]).decode("ascii"),
+            "branch": "main",
+        })
+        if status != 201:
+            raise ValueError(
+                f"initialization failed at {path} (HTTP {status}); "
+                "check token Contents:write permission; "
+                "repository may be partially initialized")
+    return True
+
 def main():
     read_token = os.environ.get("GH_READ_TOKEN")
     token = os.environ.get("BOOTSTRAP_GITHUB_TOKEN")
@@ -71,18 +115,24 @@ def main():
         if existing.get("full_name") != f"{OWNER}/{name}" or not existing.get("private"):
             raise ValueError("existing repository conflicts with private target")
         print(f"Already exists: https://github.com/{OWNER}/{name}")
-        return
-    if status != 404:
+    elif status == 404:
+        status, created = api(token, "/user/repos", "POST", {
+            "name": name, "private": True, "auto_init": False,
+            "description": "Bootstrapped by ai-app-user/infra"
+        })
+        if status != 201 or not isinstance(created, dict):
+            raise ValueError(f"repository creation failed (HTTP {status}); verify token permission")
+        if created.get("full_name") != f"{OWNER}/{name}" or not created.get("private"):
+            raise ValueError("unexpected repository returned by API")
+        print(f"Created private repository: https://github.com/{OWNER}/{name}")
+    else:
         raise ValueError(f"unable to verify repository absence (HTTP {status})")
-    status, created = api(token, "/user/repos", "POST", {
-        "name": name, "private": True, "auto_init": False,
-        "description": "Bootstrapped by ai-app-user/infra"
-    })
-    if status != 201 or not isinstance(created, dict):
-        raise ValueError(f"repository creation failed (HTTP {status}); verify token permission")
-    if created.get("full_name") != f"{OWNER}/{name}" or not created.get("private"):
-        raise ValueError("unexpected repository returned by API")
-    print(f"Created private repository: https://github.com/{OWNER}/{name}")
+    state, files = scaffold()
+    if install_scaffold(token, name, files):
+        print(f"Initialized {OWNER}/{name} at standards {state['version']} ({state['commit'][:8]})")
+    else:
+        print("Existing content preserved; no files overwritten")
+
 
 
 if __name__ == "__main__":
