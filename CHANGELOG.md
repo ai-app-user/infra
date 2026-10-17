@@ -1,5 +1,10 @@
 # Changelog
 
+## Pending — one-request repository bootstrap
+
+- Make trusted GitHub Actions create and initialize the private project in one operation.
+- Preserve existing repositories and report Contents:write permission failures explicitly.
+
 ## 1.1.0
 
 - Expand the default AGENTS.md into a session-start, development, and shared-infra lifecycle contract.
