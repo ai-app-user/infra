@@ -1,0 +1,12 @@
+name: Bootstrap request signal
+on:
+  push:
+    branches:
+      - 'bootstrap-requests/**'
+permissions:
+  contents: read
+jobs:
+  signal:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'Request received. Privileged processing runs from main.'
