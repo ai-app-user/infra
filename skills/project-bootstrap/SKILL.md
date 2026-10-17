@@ -1,6 +1,6 @@
 ---
 name: project-bootstrap
-description: Create a new GitHub project using shared infrastructure, update a project to the latest standards, or make an improvement part of global infrastructure through a reviewable pull request.
+description: Use when the user asks to create or bootstrap a GitHub repository/project with their standard infra, initialize a new coding project, upgrade an existing project's shared development standards, or propose a reusable improvement to central infra. Includes private repository creation through GitHub Actions.
 ---
 
 # Project bootstrap
