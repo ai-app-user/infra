@@ -1,9 +1,10 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "documents": ["docs/project-guidelines.md", "docs/security.md"],
   "templates": {
     "AGENTS.md": "templates/project/AGENTS.md",
     ".gitignore": "templates/project/gitignore",
-    "README.md": "templates/project/README.md"
+    "README.md": "templates/project/README.md",
+    "docs/DEVELOPMENT.md": "templates/project/docs/DEVELOPMENT.md"
   }
 }
