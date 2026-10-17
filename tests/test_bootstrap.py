@@ -87,7 +87,8 @@ sys.exit(99)
     def change(self, relative, text):
         (self.infra / relative).write_text(text)
         manifest = json.loads((self.infra / 'standards.json').read_text())
-        manifest['version'] = '1.1.0'
+        major, minor, patch = map(int, manifest['version'].split('.'))
+        manifest['version'] = f'{major}.{minor + 1}.0'
         (self.infra / 'standards.json').write_text(json.dumps(manifest))
         self.commit()
 
@@ -104,7 +105,8 @@ sys.exit(99)
 
     def test_create_and_repeat_are_identical(self):
         state = self.sync()
-        self.assertEqual(state['version'], '1.0.0')
+        self.assertEqual(state['version'], json.loads((self.infra / 'standards.json').read_text())['version'])
+        self.assertTrue((self.project / 'docs/DEVELOPMENT.md').exists())
         self.assertEqual(state['commit'], self.git(self.infra, 'rev-parse', 'HEAD'))
         before = self.snapshot()
         self.sync()
@@ -116,10 +118,10 @@ sys.exit(99)
         agents = self.project / 'AGENTS.md'
         agents.write_text(agents.read_text() + '\nUse Python for this project.\n')
         source = self.infra / 'templates/project/AGENTS.md'
-        self.change('templates/project/AGENTS.md', source.read_text().replace('# Shared infrastructure', '# Shared project infrastructure'))
+        self.change('templates/project/AGENTS.md', source.read_text().replace('# Project agent contract', '# Updated project agent contract'))
         self.sync()
         self.assertIn('Use Python for this project.', agents.read_text())
-        self.assertIn('# Shared project infrastructure', agents.read_text())
+        self.assertIn('# Updated project agent contract', agents.read_text())
         before = self.snapshot()
         self.sync()
         self.assertEqual(before, self.snapshot())
@@ -136,7 +138,7 @@ sys.exit(99)
         self.assertEqual(before, self.snapshot())
         local.write_text(source.read_text())
         self.sync()
-        self.assertEqual(json.loads((self.project / b.STATE).read_text())['version'], '1.1.0')
+        self.assertEqual(json.loads((self.project / b.STATE).read_text())['version'], '1.2.0')
 
     def test_adoption_retains_existing_files(self):
         (self.project / 'README.md').write_text('My existing project\n')
