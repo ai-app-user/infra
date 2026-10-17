@@ -1,8 +1,10 @@
 {
   "name": "project-bootstrap",
-  "version": "1.0.0",
-  "description": "Create GitHub projects, adopt shared standards, and propose infrastructure improvements.",
-  "author": {"name": "ai-app-user"},
+  "version": "1.1.0",
+  "description": "Create private GitHub projects with shared development rules, synchronize projects, and propose global infra improvements.",
+  "author": {
+    "name": "ai-app-user"
+  },
   "repository": "https://github.com/ai-app-user/infra",
   "skills": "./skills/"
 }
