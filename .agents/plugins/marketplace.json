@@ -1,0 +1,12 @@
+{
+  "name": "ai-app-user-infra",
+  "interface": {"displayName": "Shared project infrastructure"},
+  "plugins": [
+    {
+      "name": "project-bootstrap",
+      "source": {"source": "local", "path": "./"},
+      "policy": {"installation": "AVAILABLE", "authentication": "ON_INSTALL"},
+      "category": "Productivity"
+    }
+  ]
+}
