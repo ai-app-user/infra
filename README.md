@@ -40,3 +40,26 @@ scripts/new-github-project.sh \
 - `docs/project-guidelines.md`: common cross-project engineering rules.
 - `docs/security.md`: credential handling rules.
 
+
+## Project bootstrap
+
+The canonical Codex skill is [project-bootstrap](skills/project-bootstrap/SKILL.md).
+It supports local scaffolding, explicit GitHub publishing, safe adoption and
+upgrades, and proposing shared improvements through infra pull requests.
+
+```bash
+python3 scripts/project-bootstrap.py create --project /workspace/my-project
+# Review the plan, then repeat with --apply.
+python3 -m unittest discover -s tests -v
+```
+
+See [workflow and synchronization](docs/project-bootstrap.md) and
+[Codex Cloud activation](docs/codex-cloud.md). This repo includes a skill-only
+plugin and marketplace catalog; their presence does **not** install a skill
+account-wide. Cloud installation and cross-device discovery remain unverified.
+The explicit-fetch fallback works without relying on global skill discovery,
+provided the Cloud task can run a shell and access infra.
+
+Prefer project-bootstrap for new projects. The older new-github-project.sh
+remains available for existing automation and stages all source files when
+committing; review its source directory carefully before use.

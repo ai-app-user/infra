@@ -1,0 +1,8 @@
+{
+  "name": "project-bootstrap",
+  "version": "1.0.0",
+  "description": "Create GitHub projects, adopt shared standards, and propose infrastructure improvements.",
+  "author": {"name": "ai-app-user"},
+  "repository": "https://github.com/ai-app-user/infra",
+  "skills": "./skills/"
+}

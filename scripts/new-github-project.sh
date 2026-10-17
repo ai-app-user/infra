@@ -133,10 +133,31 @@ run() {
   fi
 }
 
+# A failed lookup must not be mistaken for a missing repository.
+gh api user --jq .login >/dev/null
+repo_headers=""
+repo_exists=0
+if repo_headers="$(gh api --include "repos/$full_name" 2>/dev/null)"; then
+  repo_exists=1
+elif ! printf '%s\n' "$repo_headers" | grep -Eq '^HTTP/[^ ]+ 404([[:space:]]|$)'; then
+  echo "GitHub lookup failed; refusing creation. Check API network/authentication." >&2
+  exit 1
+fi
+
 cd "$source_dir"
 
-if [[ ! -d .git ]]; then
+if [[ ! -e .git ]]; then
+  if git rev-parse --show-toplevel >/dev/null 2>&1; then
+    echo "Refusing to initialize inside another Git repository" >&2
+    exit 1
+  fi
   run git init
+fi
+if existing_remote="$(git config --get remote.origin.url 2>/dev/null)"; then
+  if [[ "$existing_remote" != "$remote_url" ]]; then
+    echo "Origin differs; refusing to replace it" >&2
+    exit 1
+  fi
 fi
 
 if [[ -z "$(git config --get user.name || true)" && -n "$(git config --global --get user.name || true)" ]]; then
@@ -147,7 +168,7 @@ if [[ -z "$(git config --get user.email || true)" && -n "$(git config --global -
   run git config user.email "$(git config --global --get user.email)"
 fi
 
-if gh repo view "$full_name" >/dev/null 2>&1; then
+if [[ "$repo_exists" -eq 1 ]]; then
   echo "GitHub repo already exists: $full_name"
 else
   create_args=(repo create "$full_name" "--$visibility")
