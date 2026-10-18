@@ -33,6 +33,14 @@ For approved VPS access and deployment setup, read
 project-isolated deployment credentials, and a read-only connectivity check.
 The repository does not contain SSH private keys or grant server access by itself.
 
+## Autonomous development
+
+The default Codex delivery policy is in [docs/AUTONOMY.md](docs/AUTONOMY.md).
+Routine authorized work should move from implementation through passing tests,
+automatic merging, and requested deployment without manual PR clicks. This
+requires applicable GitHub permissions and real deployment automation; it does
+not imply that Codex runs after its task ends.
+
 ## AI development and shared infrastructure
 
 **Start with [AGENTS.md](AGENTS.md)** for the agent contract and
