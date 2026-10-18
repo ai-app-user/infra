@@ -23,7 +23,7 @@ class BootstrapTests(unittest.TestCase):
         self.root = Path(self.temp.name)
         self.infra = self.root / 'infra'
         self.infra.mkdir()
-        for name in ['standards.json', 'templates', 'docs']:
+        for name in ['standards.json', 'templates', 'docs', 'scripts']:
             source = ROOT / name
             if source.is_dir():
                 shutil.copytree(source, self.infra / name)
