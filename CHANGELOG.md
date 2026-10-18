@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.0
+
+- Include a Codex Cloud environment handoff guide in every project.
+- Explain the supported first-time web/desktop setup, publishing, and cross-device use.
+- Explicitly distinguish GitHub bootstrap automation from Codex Cloud environment provisioning.
+
 ## Plugin packaging update
 
 - Add a portable root plugin manifest with an onboarding skill for supported personal installs.
