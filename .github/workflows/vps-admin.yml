@@ -1,0 +1,65 @@
+name: VPS administration (approved)
+on:
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: 'Name of reviewed ops/vps/admin/<operation>.sh on infra/main'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: vps-admin-production
+  cancel-in-progress: false
+
+jobs:
+  administer:
+    # Never execute privileged operations from feature branches or other actors.
+    if: ${{ github.ref == 'refs/heads/main' && github.actor == 'ai-app-user' }}
+    runs-on: ubuntu-latest
+    environment: vps-admin
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+      - name: Validate operation
+        env:
+          OPERATION: ${{ inputs.operation }}
+        run: |
+          set -euo pipefail
+          [[ "$OPERATION" =~ ^[a-z][a-z0-9-]{0,40}$ ]] || { echo 'Invalid operation name' >&2; exit 2; }
+          file="ops/vps/admin/${OPERATION}.sh"
+          [[ -f "$file" && ! -L "$file" ]] || { echo 'Operation must exist as reviewed file on infra/main' >&2; exit 2; }
+          bash -n "$file"
+          echo "OPERATION_FILE=$file" >> "$GITHUB_ENV"
+      - name: Execute reviewed operation over verified SSH
+        env:
+          VPS_HOST: ${{ secrets.VPS_ADMIN_HOST }}
+          VPS_USER: ${{ secrets.VPS_ADMIN_USER }}
+          VPS_PORT: ${{ vars.VPS_ADMIN_PORT }}
+          VPS_KEY: ${{ secrets.VPS_ADMIN_SSH_KEY }}
+          VPS_KNOWN_HOSTS: ${{ secrets.VPS_ADMIN_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          : "${VPS_HOST:?Configure VPS_ADMIN_HOST in protected environment}"
+          : "${VPS_USER:?Configure VPS_ADMIN_USER in protected environment}"
+          : "${VPS_KEY:?Configure VPS_ADMIN_SSH_KEY in protected environment}"
+          : "${VPS_KNOWN_HOSTS:?Configure VPS_ADMIN_KNOWN_HOSTS in protected environment}"
+          [[ "${VPS_PORT:-22}" =~ ^[0-9]{1,5}$ ]] || { echo 'Invalid SSH port' >&2; exit 2; }
+          umask 077
+          mkdir -p "$RUNNER_TEMP/vps-admin/.ssh"
+          trap 'rm -rf "$RUNNER_TEMP/vps-admin"' EXIT
+          printf '%s\n' "$VPS_KEY" > "$RUNNER_TEMP/vps-admin/.ssh/id_ed25519"
+          printf '%s\n' "$VPS_KNOWN_HOSTS" > "$RUNNER_TEMP/vps-admin/.ssh/known_hosts"
+          chmod 600 "$RUNNER_TEMP/vps-admin/.ssh/"*
+          # No untrusted command text or operation parameters travel over SSH.
+          ssh -T -i "$RUNNER_TEMP/vps-admin/.ssh/id_ed25519" \
+            -o IdentitiesOnly=yes -o BatchMode=yes -o NumberOfPasswordPrompts=0 \
+            -o StrictHostKeyChecking=yes \
+            -o UserKnownHostsFile="$RUNNER_TEMP/vps-admin/.ssh/known_hosts" \
+            -o ConnectTimeout=15 -p "${VPS_PORT:-22}" \
+            -- "$VPS_USER@$VPS_HOST" 'sudo -n bash -s' < "$OPERATION_FILE"
