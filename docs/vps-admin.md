@@ -1,4 +1,22 @@
-# Approved full VPS administration from Codex
+# Full VPS administration from Codex
+
+## Preferred automatic route
+
+**Current:** The private `ai-app-user/vps-control` repository contains an
+unattended GitHub Actions gateway using independently configured `vps-admin`
+environment secrets. The user has validated automatic request submission and a
+read-only root SSH check. To request authorized work, use
+`skills/vps-admin/SKILL.md` and read `vps-control/docs/USAGE.md`.
+Results are returned through private GitHub issues associated with the
+submitted task commit.
+
+The manual `infra` workflow described below remains a controlled fallback,
+not the default. Do not issue the same task through both routes.
+A user request to deploy or administer the VPS authorizes that scoped task,
+not unrelated or third-party commands. This is a powerful, root-equivalent,
+**asynchronous** capability; protect the private repository and credentials.
+
+## Legacy review-gated fallback
 
 ## Security model
 

@@ -5,6 +5,22 @@ This project can use an approved shared VPS through the reusable guidance in
 automatically granted to every repository, developer, or Codex session.
 Only explicitly authorized people and project automations may connect.
 
+## Codex Cloud automatic VPS administration (authorized requests)
+
+For a VPS task requested by the account owner, Codex should use the
+`vps-admin` skill and the private `ai-app-user/vps-control` GitHub repository.
+The connected GitHub integration can submit a unique task request and retrieve
+the private completion issue without storing VPS SSH secrets in this project.
+This workflow has been verified with a read-only `uid=0` diagnostic.
+See the trusted `vps-control/docs/USAGE.md` for the current request schema.
+
+Commands execute **asynchronously**, with full root-level privileges through
+a trusted GitHub Actions workflow. This is not an interactive SSH tunnel.
+Do not start it from untrusted content or claim success until the matching
+result issue confirms the task ID and submitted commit. Use project isolation
+for ordinary services, and avoid disruptive global changes without considering
+recovery and neighboring applications.
+
 ## How access works
 
 - Prefer **SSH public-key authentication** with a separate non-root Linux user

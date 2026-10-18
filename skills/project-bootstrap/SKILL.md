@@ -127,6 +127,18 @@ Codex Cloud, use a supported secure credential mechanism or a project-scoped,
 reviewer-protected GitHub Actions deployment; never publish credentials in Git.
 The user must authorize any server mutation or deployment explicitly.
 
+## Unattended authorized VPS administration
+
+When the account owner requests VPS inspection, hosting, software installation,
+or server configuration, use the companion `vps-admin` skill from this plugin.
+Its trusted instructions are at `skills/vps-admin/SKILL.md` and the live task
+schema is in the private `ai-app-user/vps-control/docs/USAGE.md`.
+GitHub integration submits the request and reads result issues. The root SSH
+key remains exclusively in private protected GitHub Actions secrets.
+Unlike the older approved workflow in infra, the tested private control gateway
+does not require a separate PR merge or Run Workflow click for each task.
+Never submit server commands unless authorized by the user's request.
+
 ## Cloud discovery
 
 A SKILL.md in GitHub is not an account-wide installation. See

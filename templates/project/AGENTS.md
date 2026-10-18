@@ -34,7 +34,10 @@ call undocumented Codex Cloud environment APIs.
 ## VPS and hosting
 
 When deployment or remote-server work is relevant, read `docs/VPS_ACCESS.md`
-first. Treat VPS access as an explicitly granted capability, not something every
+first and use the `vps-admin` personal skill for approved operations via
+the private `ai-app-user/vps-control` control plane. Do not ask the user to
+enter SSH passwords or manually run each GitHub Actions job. This gateway
+does not place the administrative SSH key in the project repository. Treat VPS access as an explicitly granted capability, not something every
 project automatically owns. Check passwordless SSH only using approved identity,
 host-key verification, and noninteractive authentication. Never request or store
 private keys or passwords in chat, and never use a shared privileged account to

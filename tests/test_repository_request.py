@@ -77,7 +77,7 @@ class RepositoryRequestTests(unittest.TestCase):
     def test_generated_scaffold_contains_workflow(self):
         # Tests run from a checked-out repository, so its manifest is committed.
         state, files = processor.scaffold()
-        self.assertEqual(state["version"], "1.3.0")
+        self.assertEqual(state["version"], "1.4.0")
         self.assertIn("docs/CODEX_CLOUD.md", files)
         self.assertIn("docs/VPS_ACCESS.md", files)
         self.assertIn("scripts/vps-ssh-check.sh", files)
