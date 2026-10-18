@@ -21,7 +21,7 @@
       "onboardingSkill": "./skills/setup/SKILL.md",
       "interface": {
         "displayName": "Project Bootstrap",
-        "shortDescription": "Create GitHub projects with shared development rules",
+        "shortDescription": "Shared GitHub project setup",
         "longDescription": "Bootstrap private GitHub projects from central development instructions, synchronize infra standards, and manage authorized VPS operations through secure automation.",
         "developerName": "ai-app-user",
         "category": "Productivity",
