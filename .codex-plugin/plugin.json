@@ -1,7 +1,7 @@
 {
   "name": "project-bootstrap",
-  "version": "1.1.0",
-  "description": "Create private GitHub projects with shared development rules, synchronize projects, and propose global infra improvements.",
+  "version": "1.2.0",
+  "description": "Bootstrap GitHub projects and manage authorized VPS hosting with shared infra standards.",
   "author": {
     "name": "ai-app-user"
   },
