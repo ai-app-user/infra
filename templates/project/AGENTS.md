@@ -31,6 +31,16 @@ in `docs/CODEX_CLOUD.md` when they want to work in Codex Cloud. Do not claim an
 environment was created solely because the repository exists. Never invent or
 call undocumented Codex Cloud environment APIs.
 
+## VPS and hosting
+
+When deployment or remote-server work is relevant, read `docs/VPS_ACCESS.md`
+first. Treat VPS access as an explicitly granted capability, not something every
+project automatically owns. Check passwordless SSH only using approved identity,
+host-key verification, and noninteractive authentication. Never request or store
+private keys or passwords in chat, and never use a shared privileged account to
+bypass project isolation. Plan application deployment and rollback before any
+remote changes. If secure access is not provisioned, report the missing setup.
+
 ## Day-to-day development
 
 Follow the shared guidelines and security rules, plus the practical workflow
