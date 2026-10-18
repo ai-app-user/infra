@@ -26,6 +26,13 @@ Once published, the project environment can be selected from a computer or phone
 The GitHub repository is bootstrapped automatically; the Codex environment still
 requires the supported web/desktop creation and publication flow.
 
+## VPS hosting (optional)
+
+For approved VPS access and deployment setup, read
+[docs/VPS_ACCESS.md](docs/VPS_ACCESS.md). It explains SSH key enrollment,
+project-isolated deployment credentials, and a read-only connectivity check.
+The repository does not contain SSH private keys or grant server access by itself.
+
 ## AI development and shared infrastructure
 
 **Start with [AGENTS.md](AGENTS.md)** for the agent contract and
