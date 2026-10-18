@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.4.0
+
+- Add an independently discoverable `vps-admin` skill for authorized Codex VPS tasks.
+- Route tasks and results through the private `ai-app-user/vps-control` GitHub gateway.
+- Teach newly bootstrapped projects to use unattended, verified VPS control
+  without exposing credentials or requiring per-task GitHub UI actions.
+- Preserve the reviewed manual administrative workflow as a fallback.
+
 ## 1.3.0
 
 - Add reusable VPS access and hosting guidance to every bootstrapped project.
