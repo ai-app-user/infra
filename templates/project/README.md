@@ -19,6 +19,13 @@ relevant acceptance and performance criteria as they are established.
 Link project-specific designs, decisions, deployment, observability, and
 recovery procedures when applicable.
 
+## Working in Codex Cloud
+
+For first-time Cloud environment setup, see [docs/CODEX_CLOUD.md](docs/CODEX_CLOUD.md).
+Once published, the project environment can be selected from a computer or phone.
+The GitHub repository is bootstrapped automatically; the Codex environment still
+requires the supported web/desktop creation and publication flow.
+
 ## AI development and shared infrastructure
 
 **Start with [AGENTS.md](AGENTS.md)** for the agent contract and
