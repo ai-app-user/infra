@@ -106,6 +106,16 @@ report the request was not submitted and allow a connected GitHub integration
 to create the branch/request. Never claim automatic discovery or successful
 remote publication without evidence.
 
+## New project Codex Cloud handoff
+
+After GitHub repository creation and scaffold verification, report the project
+repository URL and point the user to the generated `docs/CODEX_CLOUD.md`.
+When no project environment exists, provide supported steps for selecting the
+new repository and publishing its environment on web/desktop; do not claim this
+was automated. On mobile, the user can select an already published project
+environment. If the product later exposes a supported environment-creation
+action, validate it before relying on it. Do not use undocumented API endpoints.
+
 ## Cloud discovery
 
 A SKILL.md in GitHub is not an account-wide installation. See
