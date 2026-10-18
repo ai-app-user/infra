@@ -116,6 +116,17 @@ was automated. On mobile, the user can select an already published project
 environment. If the product later exposes a supported environment-creation
 action, validate it before relying on it. Do not use undocumented API endpoints.
 
+## Optional VPS hosting
+
+When a project requires VPS deployment, read its generated `docs/VPS_ACCESS.md`
+which comes from the shared infra standards. Check key-only SSH connectivity
+without passwords only after an approved identity has been provisioned. The
+skill must not claim VPS access, create privileged remote users, copy private
+keys, or run remote commands merely because a project was bootstrapped. For
+Codex Cloud, use a supported secure credential mechanism or a project-scoped,
+reviewer-protected GitHub Actions deployment; never publish credentials in Git.
+The user must authorize any server mutation or deployment explicitly.
+
 ## Cloud discovery
 
 A SKILL.md in GitHub is not an account-wide installation. See
