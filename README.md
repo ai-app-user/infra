@@ -63,3 +63,9 @@ provided the Cloud task can run a shell and access infra.
 Prefer project-bootstrap for new projects. The older new-github-project.sh
 remains available for existing automation and stages all source files when
 committing; review its source directory carefully before use.
+
+## Full VPS administration
+
+For approved root-level VPS maintenance, use the reviewed, manually triggered
+[admin workflow](docs/vps-admin.md) in infra. This is deliberately separate
+from ordinary project deployment and requires protected environment secrets.
