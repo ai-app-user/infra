@@ -24,6 +24,13 @@ coding session in this project, regardless of the computer or environment.
    the gaps, make a minimal documented proposal, and ask only for decisions
    necessary to proceed. Do not invent product requirements.
 
+## Codex Cloud environment
+
+For a newly bootstrapped project, guide the user through the supported setup
+in `docs/CODEX_CLOUD.md` when they want to work in Codex Cloud. Do not claim an
+environment was created solely because the repository exists. Never invent or
+call undocumented Codex Cloud environment APIs.
+
 ## Day-to-day development
 
 Follow the shared guidelines and security rules, plus the practical workflow
