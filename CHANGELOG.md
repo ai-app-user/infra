@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.5.0
+
+- Define autonomous development completion as verified requested outcomes rather than PR creation.
+- Allow ordinary authorized project PRs to be merged after checks, with explicit exceptions for risky changes and shared infra.
+- Treat deployment and health verification as part of a requested deployment task.
+- Make the first real project task load project/infra rules without a separate setup conversation.
+
+
 ## 1.4.0
 
 - Add an independently discoverable `vps-admin` skill for authorized Codex VPS tasks.

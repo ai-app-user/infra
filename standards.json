@@ -1,5 +1,5 @@
 {
-  "version": "1.4.0",
+  "version": "1.5.0",
   "documents": [
     "docs/project-guidelines.md",
     "docs/security.md"
@@ -11,6 +11,7 @@
     "docs/DEVELOPMENT.md": "templates/project/docs/DEVELOPMENT.md",
     "docs/CODEX_CLOUD.md": "templates/project/docs/CODEX_CLOUD.md",
     "docs/VPS_ACCESS.md": "templates/project/docs/VPS_ACCESS.md",
-    "scripts/vps-ssh-check.sh": "scripts/vps-ssh-check.sh"
+    "scripts/vps-ssh-check.sh": "scripts/vps-ssh-check.sh",
+    "docs/AUTONOMY.md": "templates/project/docs/AUTONOMY.md"
   }
 }

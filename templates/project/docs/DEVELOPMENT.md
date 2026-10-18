@@ -5,6 +5,13 @@ read [infra](https://github.com/ai-app-user/infra) at the commit in
 `.project-bootstrap.json`. This guide explains **how to use** that policy; it
 does not replace the authoritative shared standards.
 
+## Autonomous execution
+
+`docs/AUTONOMY.md` defines the default end-to-end implementation, testing,
+conditional merge and deployment workflow. Use it whenever a user requests
+implementation, not just documentation. The completion standard is the actual
+requested outcome, never just "PR opened".
+
 ## Before coding
 
 1. Read `AGENTS.md`, `README.md`, this guide, and relevant requirements/designs.
@@ -36,7 +43,7 @@ does not replace the authoritative shared standards.
 - Document commands and prerequisites in `README.md`.
 - Report what changed, which tests ran, what passed or failed, and any remaining
   uncertainty. Never imply deployment or end-to-end testing without evidence.
-- For higher-risk changes, prefer a reviewed PR over a direct default-branch push.
+- For routine authorized changes, use a PR and automatically merge once applicable checks pass; keep review gates for higher-risk or shared infrastructure changes.
 - Update runbooks, diagrams, requirements, and changelogs when behavior changes.
 
 ## Shared infrastructure lifecycle

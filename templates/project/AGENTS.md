@@ -44,6 +44,16 @@ private keys or passwords in chat, and never use a shared privileged account to
 bypass project isolation. Plan application deployment and rollback before any
 remote changes. If secure access is not provisioned, report the missing setup.
 
+## Default autonomous delivery
+
+Read `docs/AUTONOMY.md` before beginning substantive work. For a user-requested
+change, do not stop at a plan, PR, or documentation unless that is the actual
+requested deliverable. Implement, test, auto-merge authorized routine changes
+when checks pass, and deploy/verify when requested and configured. Do not ask
+the user to merge ordinary PRs manually. Respect stop conditions for destructive
+operations, unresolved requirements, failed checks and infra policy changes.
+Do not claim continuous background work without a configured running task.
+
 ## Day-to-day development
 
 Follow the shared guidelines and security rules, plus the practical workflow
