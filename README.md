@@ -66,6 +66,10 @@ committing; review its source directory carefully before use.
 
 ## Full VPS administration
 
-For approved root-level VPS maintenance, use the reviewed, manually triggered
-[admin workflow](docs/vps-admin.md) in infra. This is deliberately separate
-from ordinary project deployment and requires protected environment secrets.
+For authorized VPS administration, the preferred path is the private
+[ai-app-user/vps-control](https://github.com/ai-app-user/vps-control)
+GitHub Actions gateway and the `vps-admin` skill. Read
+[the VPS administrator guide](docs/vps-admin.md). This allows asynchronous
+server operations without copying keys or requiring PR merges and workflow
+clicks for every task. The original reviewed manual workflow remains as a
+fallback.
