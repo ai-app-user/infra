@@ -11,11 +11,11 @@ receive only limited deployment identities.
 
 The admin workflow is manual (`workflow_dispatch`) and only runs from trusted
 `infra/main` for the allowed GitHub actor `ai-app-user`. Its workflow job
-targets the protected `vps-admin` environment, which must have **required
-reviewers, restricted deployment branches, and no automatic self-approval**.
-GitHub plan restrictions may affect environment protection features: verify
-that approval gates truly work before storing the admin key. If approvals
-cannot be enforced, stop; don't install a broad admin secret.
+targets the protected `vps-admin` environment, which must restrict deployment to `main` and should require an independent
+reviewer where the GitHub plan/account permits it.
+GitHub plan restrictions may affect reviewer protection features; test what
+restrictions are actually enforced before storing the admin key. Never claim
+a reviewer approval exists unless it is configured and verified.
 
 To perform new administration tasks, Codex prepares a **new reviewed script**
 under `ops/vps/admin/NAME.sh` on an infra feature branch with tests/rollback
@@ -55,9 +55,12 @@ instructions do **not** connect to or configure the VPS automatically.
 
 Repository: `ai-app-user/infra` → Settings → Environments → create `vps-admin`.
 
-Require an authorized reviewer other than the workflow initiator if the
-environment cannot self-approve; restrict permitted branches to `main`.
-Enable prevent-self-review where supported and ensure approval is required.
+Restrict permitted branches to `main`. Ideally require an independent
+reviewer and enable prevent-self-review. For a solo-owned account where this
+is unavailable, the explicit manual workflow dispatch by `ai-app-user` is
+the execution-approval action; require branch protection and review changes
+before merging scripts to main. Treat this as a weaker approval boundary
+and do not enable unattended triggers.
 
 Store these **environment** secrets (not repository-level secrets):
 - `VPS_ADMIN_HOST`: independently verified hostname/IP
