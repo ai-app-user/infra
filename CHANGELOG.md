@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.0
+
+- Add reusable VPS access and hosting guidance to every bootstrapped project.
+- Add a read-only, key-only SSH connectivity script without embedded endpoints or secrets.
+- Specify one-time public-key enrollment and per-project protected deployment credentials.
+- Clarify that VPS access requires explicit authorization and cannot be assumed from Codex Cloud.
+
 ## 1.2.0
 
 - Include a Codex Cloud environment handoff guide in every project.
