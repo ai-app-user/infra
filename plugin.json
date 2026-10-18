@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "project-bootstrap",
-  "version": "1.1.0",
-  "description": "Create private GitHub projects with shared ai-app-user/infra standards, synchronize existing projects, and propose reusable improvements to infra.",
+  "version": "1.2.0",
+  "description": "Bootstrap private GitHub projects and manage authorized VPS hosting using central infra standards.",
   "author": {
     "name": "ai-app-user"
   },
@@ -11,7 +11,10 @@
     "github",
     "codex",
     "project-bootstrap",
-    "development-standards"
+    "development-standards",
+    "vps",
+    "server-administration",
+    "deployment"
   ],
   "extensions": {
     "com.openai": {
@@ -19,7 +22,7 @@
       "interface": {
         "displayName": "Project Bootstrap",
         "shortDescription": "Create GitHub projects with shared development rules",
-        "longDescription": "Bootstrap new private GitHub projects with central development instructions, track adopted standards, and propose reusable improvements through reviewed pull requests.",
+        "longDescription": "Bootstrap private GitHub projects from central development instructions, synchronize infra standards, and manage authorized VPS operations through secure automation.",
         "developerName": "ai-app-user",
         "category": "Productivity",
         "capabilities": [
@@ -30,7 +33,8 @@
         "defaultPrompt": [
           "Create a private GitHub project using my standard infrastructure.",
           "Update this project's shared development standards.",
-          "Propose this reusable improvement to my global infra."
+          "Propose this reusable improvement to my global infra.",
+          "Inspect my VPS and deploy this application using my standard hosting setup."
         ]
       }
     }
